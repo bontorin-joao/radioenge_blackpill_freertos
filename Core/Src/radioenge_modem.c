@@ -17,11 +17,16 @@ extern osTimerId_t ModemLedTimerHandle;
 extern osMessageQueueId_t uartQueueHandle;
 extern osTimerId_t DutyCycleTimerHandle;
 
-#define NUMBER_OF_STRINGS (2)
+#define NUMBER_OF_STRINGS (7)
 #define STRING_LENGTH (255)
 char gConfigCmds[NUMBER_OF_STRINGS][STRING_LENGTH + 1] = {
-    "AT\r\n",
-    "AT\r\n"
+    "AT+CFM=0\r\n",
+    "AT+APPKEY=db:68:de:4d:dc:af:16:d1:9d:69:73:cb:f8:05:48:6e\r\n",
+    "AT+APPEUI=00:00:00:00:00:00:00:00\r\n",
+    "AT+CHMASK=0000:00FF:0000:0000:0004:0000\r\n",
+    "AT+ADR=1\r\n",
+    "AT+NJM=1\r\n",
+    "AT+JOIN\r\n"
     };
 
 
@@ -155,6 +160,7 @@ void ModemManagerTaskCode(void *argument)
             resetRadio();
             ConfigCmdIndex = 0;
             SetRadioState(RADIO_CONFIGURING);
+            
             osThreadFlagsSet(ModemMngrTaskHandle, 0x01);
             osDelay(1000);
             break;
